@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+
+<head>
+<title>Shop Homepage - Start Bootstrap Template</title>
+</head>
+
+<body>
+	<div class="container" layout:fragment="content">
+		<!-- shopping-cart-area start -->
+		<div class="cart-main-area ptb-20 pb-90">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8">
+						<div class="contact-map-wrapper">
+							<div class="contact-map mb-40">
+								<div class="mapouter">
+									<div class="gmap_canvas">
+										<iframe width="800" height="500" id="gmap_canvas"
+											src="https://maps.google.com/maps?q=CTY%20TNHH%20TM%20DV%20QU%E1%BB%90C%20KHANG%20AN&t=&z=13&ie=UTF8&iwloc=&output=embed"
+											frameborder="0" scrolling="no" marginheight="0"
+											marginwidth="0"></iframe>
+										Google Maps Generator by <a
+											href="https://www.embedgooglemap.net">embedgooglemap.net</a>
+									</div>
+									<style>
+.mapouter {
+	position: relative;
+	text-align: right;
+	height: 500px;
+	width: 700px;
+}
+
+.gmap_canvas {
+	overflow: hidden;
+	background: none !important;
+	height: 500px;
+	width: 700px;
+}
+</style>
+								</div>
+							</div>
+							<div class="contact-message">
+								<div class="contact-title">
+									<h4>Contact Information</h4>
+								</div>
+								<form id="contact-form" class="contact-form"
+									action="assets/mail.php" method="post">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="contact-input-style mb-30">
+												<label>Name*</label> <input name="name" required=""
+													type="text">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="contact-input-style mb-30">
+												<label>Email*</label> <input name="email" required=""
+													type="email">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="contact-input-style mb-30">
+												<label>Telephone</label> <input name="telephone" required=""
+													type="text">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="contact-input-style mb-30">
+												<label>subject</label> <input name="subject" required=""
+													type="text">
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="contact-textarea-style mb-30">
+												<label>Comment*</label>
+												<textarea class="form-control2" name="message" required=""></textarea>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="g-recaptcha"
+												data-sitekey="6LclrLoUAAAAACDgLzhvHlHglI6uhUeI5jfye_lA"></div>
+										</div>
+										<div class="col-md-6">
+											<button class="submit contact-btn btn-hover" type="submit">
+												Send Message</button>
+										</div>
+									</div>
+								</form>
+								<p class="form-messege"></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="contact-info-wrapper">
+							<div class="contact-title">
+								<h4>Location & Details</h4>
+							</div>
+							<div class="contact-info">
+								<div class="single-contact-info">
+									<div class="contact-info-icon">
+										<i class="ti-location-pin"></i>
+									</div>
+									<div class="contact-info-text">
+										<p>
+											<span>Address:</span> 1234 - Bandit Tringi lAliquam <br>
+											Vitae. New York
+										</p>
+									</div>
+								</div>
+								<div class="single-contact-info">
+									<div class="contact-info-icon">
+										<i class="pe-7s-mail"></i>
+									</div>
+									<div class="contact-info-text">
+										<p>
+											<span>Email: </span> Support@plazathemes.com
+										</p>
+									</div>
+								</div>
+								<div class="single-contact-info">
+									<div class="contact-info-icon">
+										<i class="pe-7s-call"></i>
+									</div>
+									<div class="contact-info-text">
+										<p>
+											<span>Phone: </span> (800) 0123 456 789
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- shopping-cart-area end -->
+	</div>
+</body>
+
+</html>
