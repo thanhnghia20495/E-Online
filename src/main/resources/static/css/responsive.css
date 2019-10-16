@@ -1845,7 +1845,7 @@
         top: -25px;
     }
     .header-cart-3 .cart-dropdown {
-        right: -205px;
+     /*    right: -205px; */
     }
     .cart-dropdown {
         text-align: left;
@@ -2241,7 +2241,7 @@
         right: inherit;
     }
     .cart-dropdown {
-        width: 286px;
+        /* width: 286px; */
     }
     .cart-btn {
         padding: 12px 12px 10px;
@@ -3394,7 +3394,7 @@
         top: -25px;
     }
     .header-cart-3 .cart-dropdown {
-        right: -180px;
+        /* right: -180px; */
     }
     .food-header .header-cart {
         margin-left: 0;
@@ -3405,7 +3405,7 @@
         top: -66px;
     }
     .cart-dropdown {
-        right: -44px;
+      /*   right: -44px; */
     }
     .header-top-furniture .header-cart {
         margin-left: 10px;

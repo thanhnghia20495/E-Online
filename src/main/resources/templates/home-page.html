@@ -18,91 +18,33 @@
 			<h2>Top Products</h2>
 		</div>
 		<div class="row">
-			<div class="col-lg-4 col-md-6 mb-4">
+			<div th:each="product : ${productPage.content}"
+				class="col-lg-4 col-md-6 mb-4">
 				<div class="card h-100">
 					<a href="#"><img class="card-img-top"
 						src="http://placehold.it/700x400" alt=""></a>
 					<div class="card-body">
 						<h4 class="card-title">
-							<a href="#">Item One</a>
+							<a th:text="${product.productName}" href="#"></a>
 						</h4>
-						<h5>$24.99</h5>
+						<h5
+							th:text="${#numbers.formatInteger(product.price,3,'POINT')+ 'đ'}"></h5>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-lg-4 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Two</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Three</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Four</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Five</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Six</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-12 pagination-style mt-10 text-center">
+			<div th:if="${productPage.totalPages > 0}"
+				class="col-lg-12 pagination-style mt-10 text-center">
 				<ul>
-					<li><a href="#"><i class="ti-angle-left"></i></a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">...</a></li>
-					<li><a href="#">19</a></li>
-					<li class="active"><a href="#"><i class="ti-angle-right"></i></a></li>
+					<li th:if="${#numbers.formatInteger(param.page,0)} &gt; 1"><a
+						th:href="@{/home-page(size=${productPage.size}, page=${#numbers.formatInteger(param.page,0)} -1)}"><i
+							class="ti-angle-left"></i></a></li>
+					<li th:each="pageNumber : ${pageNumbers}"
+						th:class="${pageNumber==productPage.number + 1} ? active"><a
+						th:href="@{/home-page(page=${pageNumber})}"
+						th:text=${pageNumber}></a></li>
+					<li th:if="${#numbers.formatInteger(param.page,0) < #numbers.formatInteger(productPage.totalPages,0)}"><a
+						th:href="@{/home-page(size=${productPage.size}, page=${#numbers.formatInteger(param.page,0)} +1)}"><i
+							class="ti-angle-right"></i></a></li>
 				</ul>
 			</div>
 		</div>

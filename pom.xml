@@ -19,6 +19,8 @@
 		<java.version>1.8</java.version>
 		<bootstrap.version>4.2.1</bootstrap.version>
 		<jquery.version>2.2.1</jquery.version>
+		<webjar.version>0.30</webjar.version>
+		<!-- <projectLombok.version>1.18.8</projectLombok.version> -->
 	</properties>
 
 	<dependencies>
@@ -27,7 +29,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!--data jpa  -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!--mysql connection  -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
 		<!-- thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -63,12 +74,17 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>webjars-locator</artifactId>
-			<version>0.30</version>
+			<version>${webjar.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+           <!--  <version>${projectLombok.version}</version> -->
+        </dependency>
 	</dependencies>
 
 	<build>
