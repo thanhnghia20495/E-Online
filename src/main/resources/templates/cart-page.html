@@ -29,41 +29,25 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td class="product-remove"><a href="#"><i
+										<tr th:each="key: ${session.cartItem}">
+											<td class="product-remove"><a href="#"
+												th:class="${key['value'].products.getProductCode() + ' ' + 'removeCart'}"><i
 													class="pe-7s-close"></i></a></td>
 											<td class="product-thumbnail"><a href="#"><img
 													src="assets/img/cart/1.jpg" alt=""></a></td>
-											<td class="product-name"><a href="#">Wooden
-													Furniture </a></td>
-											<td class="product-price-cart"><span class="amount">$165.00</span></td>
-											<td class="product-quantity"><input value="1"
-												type="number"></td>
-											<td class="product-subtotal">$165.00</td>
-										</tr>
-										<tr>
-											<td class="product-remove"><a href="#"><i
-													class="pe-7s-close"></i></a></td>
-											<td class="product-thumbnail"><a href="#"><img
-													src="assets/img/cart/2.jpg" alt=""></a></td>
-											<td class="product-name"><a href="#">Vestibulum
-													dictum</a></td>
-											<td class="product-price-cart"><span class="amount">$150.00</span></td>
-											<td class="product-quantity"><input value="1"
-												type="number"></td>
-											<td class="product-subtotal">$150.00</td>
-										</tr>
-										<tr>
-											<td class="product-remove"><a href="#"><i
-													class="pe-7s-close"></i></a></td>
-											<td class="product-thumbnail"><a href="#"><img
-													src="assets/img/cart/3.jpg" alt=""></a></td>
-											<td class="product-name"><a href="#">Vestibulum
-													dictum</a></td>
-											<td class="product-price-cart"><span class="amount">$150.00</span></td>
-											<td class="product-quantity"><input value="1"
-												type="number"></td>
-											<td class="product-subtotal">$150.00</td>
+											<td class="product-name"><a href="#"
+												th:text="${key['value'].products.getProductName()}"></a></td>
+											<td class="product-price-cart"><span class="amount"
+												th:if="${key['value'].products.getPriceDiscount() <=0}"
+												th:text="${#numbers.formatInteger(key['value'].products.getPrice(),1,'POINT')+ 'đ'}"></span>
+												<span class="amount"
+												th:unless="${key['value'].products.getPriceDiscount() <=0}"
+												th:text="${#numbers.formatInteger(key['value'].products.getPriceDiscount(),1,'POINT')+ 'đ'}"></span>
+											</td>
+											<td class="product-quantity"><input value="0"
+												th:value="${key['value'].quantities}" type="number"></td>
+											<td class="product-subtotal"
+												th:text="${#numbers.formatInteger(key['value'].products.getPrice()*key['value'].quantities,1,'POINT')+ 'đ'}"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -149,10 +133,17 @@
 										<div class="cart-page-total">
 											<h2>Tổng số giỏ hàng</h2>
 											<ul>
-												<li>Phụ Thu<span>100.00</span></li>
-												<li>Tổng Tiền<span>100.00</span></li>
+												<li>Phụ Thu<span>0đ</span></li>
+												<li>Tổng Tiền <span th:if="${session.totalPrice}"
+													th:text="${#numbers.formatInteger(session.totalPrice,1,'POINT')+ 'đ'}"></span>
+													<span th:unless="${session.totalPrice}">0đ</span>
+												</li>
 											</ul>
-											<a href="#" style="margin-left: 70%;">Thanh Toán</a>
+											<a href="#" style="margin-left: 70%;"
+												th:if="${session.sizeCartItem >0}">Thanh Toán</a> <a
+												href="#" style="margin-left: 70%;" class="disabled"
+												th:unless="${session.sizeCartItem >0}" disabled>Thanh
+												Toán</a>
 										</div>
 									</div>
 								</div>

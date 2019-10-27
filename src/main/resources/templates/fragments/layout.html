@@ -58,7 +58,7 @@
 	<!-- Navigation -->
 	<!--header.html  that's here  -->
 	<div th:replace="fragments/top-navigation :: top-navigation"></div>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div layout:fragment="content"></div>
 			<!-- Page Content -->
@@ -86,72 +86,7 @@
 <script th:src="@{/js/plugins.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/placeholderTypewriter.js}"></script>
-<script type="text/javascript">
-	$(document).on('ready', function() {
-		$(".regular").slick({
-			autoplay : true,
-			autoplaySpeed : 1000,
-			dots : true,
-			infinite : true,
-			speed : 1000,
-			fade : false,
-			slide : 'div',
-			cssEase : 'linear',
-			pauseOnFocus : false,
-			pauseOnHover : false,
-			pauseOnDotsHover : false,
-			slidesToShow : 6,
-			slidesToScroll : 1,
-		});
-
-		var menu = $('.header-top');
-		var origOffsetY = menu.offset().top;
-		function scroll() {
-			if ($(window).scrollTop() >= origOffsetY) {
-				$('.category-menu-list').stop().slideUp(300);
-			} else {
-				$('.category-menu-list').stop().slideDown(300);
-			}
-		}
-
-		document.onscroll = scroll;
-		/*Remove cart row on cart page*/
-		$('#cart-row').on('click', 'tr a', function(e) {
-			console.log('a');
-			e.preventDefault();
-			$(this).closest('tr').remove();
-		});
-		/* Placeholder Typewriter */
-		var srtSuggesstSearch = $('#suggestSearch').val();
-		var placeholderText = srtSuggesstSearch.split(';');
-		$('#search').placeholderTypewriter({
-			text : placeholderText
-		});
-		/*auto complete*/
-		$("#search").keyup(function(event) {
-			var dulieu = $(this).val();
-			if (dulieu.length > 0) {
-				$(".search-list").show();
-				console.log("show")
-				$.ajax({
-					url : '/autocomplete',
-					type : 'post',
-					data : {
-						keyword : dulieu
-					},
-					success : function(kq) {
-						console.log(kq);
-						$(".search-list").html(kq);
-					}
-				});
-			} else {
-				$(".search-list").hide();
-				console.log("hide")
-			}
-		});
-
-	});
-</script>
+<script th:src="@{/js/product.js}"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 package com.web.EOnline.Utils;
 
 public class Constants {
-	public static final int SIZE_PAGE= 5; 
+	public static final int SIZE_PAGE= 8; 
 }

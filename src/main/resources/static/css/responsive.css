@@ -1454,7 +1454,7 @@
         width: 478px;
     }
     .categories-search-wrapper {
-        margin: 20px 0;
+       /*  margin: 20px 0; */
     }
     .category-menu-dropdown {
         display: none;
@@ -2591,7 +2591,7 @@
         width: 100%;
     }
     .categories-search-wrapper {
-        margin: 20px 0;
+        /* margin: 20px 0; */
     }
     .category-menu-dropdown {
         display: none;
