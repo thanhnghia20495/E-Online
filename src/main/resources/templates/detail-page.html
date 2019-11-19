@@ -57,7 +57,7 @@
 					</div>
 					<div class="col-md-12 col-lg-5 col-12">
 						<div class="product-details-content">
-							<h3>Handcrafted Supper Mug</h3>
+							<h3 th:text=${product.productName}></h3>
 							<div class="rating-number">
 								<div class="quick-view-rating">
 									<i class="pe-7s-star red-star"></i> <i
@@ -65,7 +65,7 @@
 										class="pe-7s-star"></i> <i class="pe-7s-star"></i>
 								</div>
 								<div class="quick-view-number">
-									<span>2 Ratting (S)</span>
+									<span></span>
 								</div>
 							</div>
 							<div class="col-lg-12">
@@ -78,28 +78,28 @@
 							</div>
 							<div class="product-info-text">
 								<p>
-									<span>Thương hiệu: </span><a href="">HỒNG KÝ</a>
+									<span>Thương hiệu: </span><a href="" th:text=${#strings.toUpperCase(product.tradeMark.description)}>HỒNG KÝ</a>
 								</p>
 								<p>
 									<span>Mã sản phẩm: </span><b id="productCode" th:text=${product.productCode}></b>
 								</p>
 								<p>
-									<span>Bảo hành: </span>12 Tháng
+									<span>Bảo hành: </span><b th:text=${product.guarantee}></b>
 								</p>
 								<p>
-									<span>Công nghệ: </span>Đức
+									<span>Công nghệ: </span><b th:text=${product.technology.description}></b>
 								</p>
 								<p>
-									<span>Trọng lượng: </span>6 kg
+									<span>Trọng lượng: </span><b th:text=${product.weight.description}></b>
 								</p>
 								<p>
-									<span>Tình trạng: </span>Còn hàng
+									<span>Tình trạng: </span><b th:text=${product.status.description}></b>
 								</p>
 								<p>
-									<span>Giá trên chưa bao gồm thuế VAT</span>
+									<span th:text=${product.vat.description}></span>
 								</p>
 								<p>
-									<span>Lượt xem: </span>4793
+									<span>Lượt xem: </span><b th:text=${product.views}></b>
 								</p>
 								<p>Máy Hàn Điện Tử Hồng Ký SR 200R Cam Kết Chính Hãng. Nhanh
 									Tay Đặt Hàng Ngay Để Được Gía Tốt, Tư Vấn Tận Tình Bảo Hành

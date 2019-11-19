@@ -2,7 +2,12 @@ package com.web.EOnline.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,9 +24,16 @@ public class Products extends Auditable<String> {
 
 	@Column(name = "product_name")
 	private String productName;
-
-	@Column(name = "trade_mark")
-	private String trademark;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "trade_mark_id")
+	private TradeMarks tradeMark;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "technology_id")
+	private Technologies technology;
 
 	@Column(name = "price")
 	private long price;
@@ -31,24 +43,35 @@ public class Products extends Auditable<String> {
 
 	@Column(name = "price_discount")
 	private long priceDiscount;
-
-	@Column(name = "weight")
-	private String weight;
-
-	@Column(name = "height")
-	private String height;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "weight_code")
+	private Weights weight;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "height_code")
+	private Heights height;
 
 	@Column(name = "guarantee")
 	private int guarantee;
-
-	@Column(name = "status")
-	private int status;
-
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "status_code")
+	private Statuses status;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name = "vat_id")
+	private VAT vat;
+	
 	@Column(name = "views")
 	private int views;
 
-	@Column(name = "option_best_selling")
-	private int option_best_selling;
+	@Column(name = "option_best_selling", length = 1)
+	private String option_best_selling;
 
 	@Column(name = "description")
 	private String description;
@@ -57,13 +80,14 @@ public class Products extends Auditable<String> {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Products(String productCode, String productName, String trademark, long price, int percentageDiscount,
-			long priceDiscount, String weight, String height, int guarantee, int status, int views,
-			int option_best_selling, String description) {
+	public Products(String productCode, String productName, TradeMarks tradeMark, Technologies technology, long price,
+			int percentageDiscount, long priceDiscount, Weights weight, Heights height, int guarantee, Statuses status,
+			VAT vat, int views, String option_best_selling, String description) {
 		super();
 		this.productCode = productCode;
 		this.productName = productName;
-		this.trademark = trademark;
+		this.tradeMark = tradeMark;
+		this.technology = technology;
 		this.price = price;
 		this.percentageDiscount = percentageDiscount;
 		this.priceDiscount = priceDiscount;
@@ -71,9 +95,11 @@ public class Products extends Auditable<String> {
 		this.height = height;
 		this.guarantee = guarantee;
 		this.status = status;
+		this.vat = vat;
 		this.views = views;
 		this.option_best_selling = option_best_selling;
 		this.description = description;
 	}
+
 
 }

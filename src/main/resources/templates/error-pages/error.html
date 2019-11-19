@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+
+<head>
+<title>Shop Homepage - Start Bootstrap Template</title>
+</head>
+
+<body>
+	<div class="container" layout:fragment="content">
+		<!-- shopping-cart-area start -->
+		<div class="cart-main-area ptb-20 pb-90">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-md-12 text-center">
+						<span class="display-1 d-block"th:text='${errorStatus}'>404</span>
+						<div class="mb-4 lead">The page you are looking for was not
+							found.</div>
+						<a th:href="@{/home-page}" class="btn btn-link">Back
+							to Home</a>
+					</div>
+				</div>
+			</div>
+			<!-- shopping-cart-area end -->
+		</div>
+	</div>
+</body>
+
+</html>

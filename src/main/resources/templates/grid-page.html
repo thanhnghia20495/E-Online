@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+
+<head>
+<title>Shop Homepage - Start Bootstrap Template</title>
+</head>
+
+<body>
+	<div class="container-fluid" layout:fragment="content">
+		<div class="shop-page-wrapper shop-page-padding ptb-40">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-3 ">
+						<div class="sidebar-widget mb-45 toolbar-products-grid">
+							<h3 class="sidebar-title">Categories</h3>
+							<div class="sidebar-categories">
+								<ul>
+									<li><a href="#">Accessories <span>4</span></a></li>
+									<li><a href="#">Book <span>9</span></a></li>
+									<li><a href="#">Clothing <span>5</span>
+									</a></li>
+									<li><a href="#">Homelife <span>3</span></a></li>
+									<li><a href="#">Kids & Baby <span>4</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="sidebar-widget mb-50 toolbar-products-grid">
+							<h3 class="sidebar-title">Top rated products</h3>
+							<div class="sidebar-top-rated-all">
+								<div class="sidebar-top-rated mb-30">
+									<div class="single-top-rated border-bottom">
+										<div class="top-rated-img">
+											<a href="#"><img
+												src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg"
+												alt=""></a>
+										</div>
+										<div class="top-rated-text">
+											<h4>
+												<a href="#">Flying Drone</a>
+											</h4>
+											<div class="top-rated-rating">
+												<ul>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+												</ul>
+											</div>
+											<span>$140.00</span>
+										</div>
+									</div>
+									<div class="single-top-rated border-bottom">
+										<div class="top-rated-img">
+											<a href="#"><img
+												src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg"
+												alt=""></a>
+										</div>
+										<div class="top-rated-text">
+											<h4>
+												<a href="#">Flying Drone</a>
+											</h4>
+											<div class="top-rated-rating">
+												<ul>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+													<li><i class="pe-7s-star"></i></li>
+												</ul>
+											</div>
+											<span>$140.00</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="shop-product-wrapper res-xl">
+							<div class="shop-bar-area">
+								<div class="shop-bar pb-60 toolbar-products-grid">
+									<div class="shop-found-selector">
+										<div class="shop-title">
+											<h1>THANG NHÔM THẲNG</h1>
+										</div>
+									</div>
+									<div class="shop-filter-tab">
+										<select id="price_sort" class="form-control">
+											<option value="0" >Mức giá</option>
+											<option th:each="price : ${listPrice}" th:value="${price.priceCode}" th:text="${price.description}" th:selected="${price.priceCode == priceSelected}"></option>
+										</select> <select id="height_sort" class="form-control">
+											<option value="0" >Chiều cao</option>
+											<option th:each="height : ${listHeight}" th:value="${height.heightCode}" th:text="${height.description}" th:selected="${height.heightCode == heightSelected}">2,35 m</option>
+										</select> <select id="weight_sort" class="form-control">
+											<option value="0" >Tải trọng</option>
+											<option th:each="weight : ${listWeight}" th:value="${weight.weightCode}" th:text="${weight.description}" th:selected="${weight.weightCode == weightSelected}">150Kg</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="shop-product-content tab-content">
+									<div class="row">
+										<div class="col-lg-3 col-xl-3" style="margin-bottom: 30px;"
+											th:each="product : ${productPage.content}">
+											<div class="card h-100">
+												<div class="label-pro-sale">
+													<span>giảm -12%</span>
+												</div>
+												<a href="#"><img style="width: 100%"
+													src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+												<div class="card-body">
+													<h2 class="product-name">
+														<a th:text="${product.productName}"
+															th:href="@{/detail-page(id=${product.productCode})}"></a>
+													</h2>
+													<h6
+														th:text="${#numbers.formatInteger(product.priceDiscount,3,'POINT')+ 'đ'}">2.000.000đ</h6>
+													<a class="button-small"><span>Mua ngay</span></a>
+												</div>
+											</div>
+										</div>
+										<div th:if="${productPage.totalPages > 0}"
+											class="col-lg-12 pagination-style mt-10 text-center">
+											<ul>
+												<li th:if="${#numbers.formatInteger(param.page,0)} &gt; 1"><a
+													th:href="@{/category-product-page(size=${productPage.size}, page=${#numbers.formatInteger(param.page,0)} -1,price=${param.price})}"><i
+														class="ti-angle-left"></i></a></li>
+												<li th:each="pageNumber : ${pageNumbers}"
+													th:class="${pageNumber==productPage.number + 1} ? active"><a
+													th:href="@{/category-product-page(page=${pageNumber},price=${param.price})}"
+													th:text=${pageNumber}></a></li>
+												<li
+													th:if="${#numbers.formatInteger(param.page,0) < #numbers.formatInteger(productPage.totalPages,0)}"><a
+													th:href="@{/category-product-page(size=${productPage.size}, page=${#numbers.formatInteger(param.page,0)} +1,price=${param.price})}"><i
+														class="ti-angle-right"></i></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								<div class="box-module-related-products">
+									<div
+										class="title-product-tabs group-title toolbar toolbar-related-products">
+										<ul class="tab">
+											<li class="active"><a href="#"><strong
+													style="font-size: initial;">Thang Nhôm Thẳng</strong></a></li>
+										</ul>
+										<ul class="pagination page-next-prev"
+											style="position: absolute; top: 8%; right: 1%;">
+											<li class="page-item"><a class="page-link btn-next"
+												href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+													<span class="sr-only">Previous</span>
+											</a></li>
+
+											<li class="page-item"><a class="page-link btn-prev"
+												href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+													<span class="sr-only">Next</span>
+											</a></li>
+										</ul>
+									</div>
+									<div class="owl-container">
+										<div class="owl-carousel owl-theme">
+											<div class="item">
+												<div class="card h-100">
+													<div class="label-pro-sale">
+														<span>giảm -12%</span>
+													</div>
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+											<div class="item">
+												<div class="card h-100">
+													<a href="#"><img
+														src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+													<div class="card-body">
+														<h2 class="product-name">
+															<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A
+																1.9m, I 3.8m</a>
+														</h2>
+														<h6>2.000.000đ</h6>
+														<a class="button-small"><span>Mua ngay</span></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

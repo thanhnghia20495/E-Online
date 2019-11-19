@@ -20,14 +20,14 @@ $(document)
 
 					var menu = $('.header-top');
 					var origOffsetY = menu.offset();
-					//console.log(origOffsetY);
+					// console.log(origOffsetY);
 					function scroll() {
 						if ($(window).scrollTop() >= origOffsetY) {
-							//$('.categori-menu-wrapper2').removeClass("header-fixed");
-							//console.log("top");
+							// $('.categori-menu-wrapper2').removeClass("header-fixed");
+							// console.log("top");
 						} else {
-							//console.log("down");
-							//$('.categori-menu-wrapper2').addClass("header-fixed");
+							// console.log("down");
+							// $('.categori-menu-wrapper2').addClass("header-fixed");
 						}
 					}
 					
@@ -104,7 +104,7 @@ $(document)
 					});
 					
 					/* remove cart */
-//					$(".removeCart").click(function(e) {
+// $(".removeCart").click(function(e) {
 					$(".header-cart-3").on("click", ".removeCart",function(e) {
 						e.preventDefault()
 						var arrId = $(this).attr('class').split(' ');
@@ -262,7 +262,56 @@ $(document)
 			    });
 				function formatNumber(num) {
 					  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') +'đ';
-					}
+					}	
+				
+				function addFilterProduct(price, height , weight) {
+					var str='/category-product-page?';
+					if(typeof price !== 'undefined'){
+						console.log('price'+ price);
+						str = str +'&price='+price;
+                		}
+					if(typeof height !== 'undefined'){
+						console.log('height'+ height);
+						str = str +'&height='+height;
+                		}
+					if(typeof weight !== 'undefined'){
+						console.log('weight'+ weight);
+						str = str +'&weight='+weight;
+	            		}
+					return str;
+				}
+				
+				function getUrlVars() {
+				    var vars = {};
+				    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+				        vars[key] = value;
+				    });
+				    return vars;
+				}
+				
+				$(function(){
+					console.log(getUrlVars());
+					
+					 var price = getUrlVars()["price"];
+					 var height = getUrlVars()["height"];
+					 var weight = getUrlVars()["weight"];
+					 console.log("price height weight: "+ price +" - "+ height +" - "+ weight);
+	                $("#price_sort").change(function(e){
+	                	price =$('#price_sort option:selected').val();
+	                	//console.log(addFilterProduct(price, height, weight));
+	                	document.location.href = addFilterProduct(price, height, weight);
+	                });
+	                $("#height_sort").change(function(e){
+	                	height =$('#height_sort option:selected').val();
+	                	document.location.href = addFilterProduct(price, height, weight);
+	                });
+	                $("#weight_sort").change(function(e){
+	                	weight =$('#weight_sort option:selected').val();
+	                	document.location.href = addFilterProduct(price, height, weight);
+                
+	                });
+	                
+	            });
 
 });
 
