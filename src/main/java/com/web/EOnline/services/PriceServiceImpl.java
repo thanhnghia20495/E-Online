@@ -22,7 +22,7 @@ public class PriceServiceImpl implements PriceService {
 	@Override
 	public Prices createPrice(Prices prices) {
 		try {
-			priceProductRepository.save(prices);
+			return priceProductRepository.save(prices);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -30,8 +30,12 @@ public class PriceServiceImpl implements PriceService {
 	}
 
 	@Override
-	public Prices updatePrice(Prices Prices) {
-		// TODO Auto-generated method stub
+	public Prices updatePrice(Prices prices) {
+		try {
+			return priceProductRepository.save(prices);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

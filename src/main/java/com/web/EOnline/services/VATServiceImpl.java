@@ -14,7 +14,7 @@ public class VATServiceImpl implements VATService {
 
 	@Override
 	public VAT findByVATId(int VATId) {
-				return vatProductRepository.findByVatId(VATId);
+		return vatProductRepository.findByVatId(VATId);
 	}
 
 	@Override

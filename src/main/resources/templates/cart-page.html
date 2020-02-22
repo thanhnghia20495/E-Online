@@ -15,7 +15,7 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<h1 class="cart-heading">Giỏ hàng</h1>
-						<form action="#">
+						<form id="form-bill" th:action="@{/bill-page}" th:object="${bills}" method="post">
 							<div class="table-content table-responsive">
 								<table id="cart-row">
 									<thead>
@@ -35,97 +35,80 @@
 													class="pe-7s-close"></i></a></td>
 											<td class="product-thumbnail"><a href="#"><img
 													src="assets/img/cart/1.jpg" alt=""></a></td>
-											<td class="product-name"><a href="#"
+											<td class="product-name"><a
+												th:href="@{/detail-page(id=${key['value'].products.getProductCode()})}"
 												th:text="${key['value'].products.getProductName()}"></a></td>
 											<td class="product-price-cart"><span class="amount"
-												th:if="${key['value'].products.getPriceDiscount() <=0}"
-												th:text="${#numbers.formatInteger(key['value'].products.getPrice(),1,'POINT')+ 'đ'}"></span>
-												<span class="amount"
-												th:unless="${key['value'].products.getPriceDiscount() <=0}"
 												th:text="${#numbers.formatInteger(key['value'].products.getPriceDiscount(),1,'POINT')+ 'đ'}"></span>
 											</td>
-											<td class="product-quantity"><input value="0"
-												th:value="${key['value'].quantities}" type="number"></td>
+											<td class="product-quantity"><input value="1"
+												th:id="${'qty-'+key['value'].products.productCode}"
+												th:attr="onkeyup='updatePriceProduct(\''+${key['value'].products.productCode}+'\',\''+${key['value'].products.getPriceDiscount()}+'\')'"
+												th:value="${key['value'].quantities}" type="text">
+												<button type="button" class="button-small btn-cart"
+													th:attr="onclick='updateCartItem(\''+${key['value'].products.productCode}+'\')'">
+													<i class="ti-reload"></i>
+												</button></td>
 											<td class="product-subtotal"
-												th:text="${#numbers.formatInteger(key['value'].products.getPrice()*key['value'].quantities,1,'POINT')+ 'đ'}"></td>
+												th:id="${'subtotal-'+key['value'].products.productCode}"
+												th:text="${#numbers.formatInteger(key['value'].products.getPriceDiscount()*key['value'].quantities,1,'POINT')+ 'đ'}"></td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 							<div class="row">
+								<div class="alert alert-danger col-md-12 mr-auto" role="alert" th:if="${messageError.error}">
+									<ul>
+										<li th:each="mError : ${messageError.message}" th:text="${mError}"></li>
+									</ul>
+								</div>
 								<div class="col-md-8 mr-auto" style="display: contents;">
 									<div class="col-md-6">
 										<div class="checkout-form-list">
-											<label>First Name <span class="required">*</span></label> <input
-												type="text" placeholder="" />
+											<label>Họ và tên <span class="required">*</span></label> <input
+												th:field="*{customerName}" type="text" required="required"
+												placeholder="Họ và tên" />
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="checkout-form-list">
-											<label>First Name <span class="required">*</span></label> <input
-												type="text" placeholder="" />
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="country-select">
-											<label>Country <span class="required">*</span></label> <select>
-												<option value="volvo">bangladesh</option>
-												<option value="saab">Algeria</option>
-												<option value="mercedes">Afghanistan</option>
-												<option value="audi">Ghana</option>
-												<option value="audi2">Albania</option>
-												<option value="audi3">Bahrain</option>
-												<option value="audi4">Colombia</option>
-												<option value="audi5">Dominican Republic</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="country-select">
-											<label>Country <span class="required">*</span></label> <select>
-												<option value="volvo">bangladesh</option>
-												<option value="saab">Algeria</option>
-												<option value="mercedes">Afghanistan</option>
-												<option value="audi">Ghana</option>
-												<option value="audi2">Albania</option>
-												<option value="audi3">Bahrain</option>
-												<option value="audi4">Colombia</option>
-												<option value="audi5">Dominican Republic</option>
-											</select>
+											<label>Email <span class="required">*</span></label> <input
+												th:field="*{email}" required="required" type="text"
+												placeholder="Email" />
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="checkout-form-list">
-											<label>First Name <span class="required">*</span></label> <input
-												type="text" placeholder="" />
+											<label>Số điện thoại <span class="required">*</span></label>
+											<input th:field="*{telephone}" type="text"
+												required="required" placeholder="Số điện thoại" />
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="checkout-form-list">
-											<label>First Name <span class="required">*</span></label> <input
-												type="text" placeholder="" />
+											<label>Địa chỉ <span class="required">*</span></label> <input
+												th:field="*{address}" type="text" required="required"
+												placeholder="Địa chỉ giao hàng" />
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="order-notes">
 											<div class="checkout-form-list mrg-nn">
-												<label>Order Notes</label>
+												<label>Ghi chú</label>
 												<textarea id="checkout-mess" cols="30" rows="10"
-													placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+													th:field="*{note}" placeholder="Ghi chú"></textarea>
 											</div>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="country-select">
-											<label>Country <span class="required">*</span></label> <select>
-												<option value="volvo">bangladesh</option>
-												<option value="saab">Algeria</option>
-												<option value="mercedes">Afghanistan</option>
-												<option value="audi">Ghana</option>
-												<option value="audi2">Albania</option>
-												<option value="audi3">Bahrain</option>
-												<option value="audi4">Colombia</option>
-												<option value="audi5">Dominican Republic</option>
+											<label>Phương thức thanh toán<span class="required">*</span></label>
+											<select th:field="*{billingMethods.billingMethodId}"
+												required="required">
+												<option value="0">Chọn hình thức thanh toán</option>
+												<option th:each="bm : ${billingMethods}"
+													th:value="${bm.billingMethodId}"
+													th:text="${bm.description}"></option>
 											</select>
 										</div>
 									</div>
@@ -139,9 +122,10 @@
 													<span th:unless="${session.totalPrice}">0đ</span>
 												</li>
 											</ul>
-											<a href="#" style="margin-left: 70%;"
-												th:if="${session.sizeCartItem >0}">Thanh Toán</a> <a
-												href="#" style="margin-left: 70%;" class="disabled"
+											<a class="btn-hover" href="/home-page">Xem sản phẩm khác...</a>
+											<a class="btn-hover" style="margin-left: 35%;" href="#" onclick="document.getElementById('form-bill').submit()"
+												th:if="${session.sizeCartItem >0}">Thanh Toán</a>
+											<a class="btn-hover disabled" style="margin-left: 35%;"
 												th:unless="${session.sizeCartItem >0}" disabled>Thanh
 												Toán</a>
 										</div>

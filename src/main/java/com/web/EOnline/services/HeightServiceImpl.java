@@ -23,7 +23,7 @@ public class HeightServiceImpl implements HeightService {
 	@Override
 	public Heights createHeight(Heights heights) {
 		try {
-			heightProductRepository.save(heights);
+			return heightProductRepository.save(heights);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,7 +32,11 @@ public class HeightServiceImpl implements HeightService {
 
 	@Override
 	public Heights updateHeight(Heights heights) {
-		// TODO Auto-generated method stub
+		try {
+			return heightProductRepository.save(heights);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

@@ -4,16 +4,19 @@
 		<div class="header-info-wrapper col-lg-12">
 			<div class="row header-contact-info header-contact-info2 col-lg-12">
 				<div class="col-xs-5">
-					<ul>
+					<ul th:each="ct : ${contact}">
 						<!-- pl-200 pr-200 -->
-						<li><i class="pe-7s-call"></i> +011 2231 4545</li>
-						<li><i class="pe-7s-mail"></i> <a href="#">company@domail.info</a></li>
+						<li th:each="tp : ${ct.telephone}" th:if="${tp.hotLine == 'Y'}"><i
+							class="pe-7s-call"></i><a th:href="${'tel: ' + tp.phoneNumber}"
+							th:text="${tp.phoneNumber}"></a></li>
+						<li><i class="pe-7s-mail"></i> <a
+							th:href="${'mailto:' + ct.email}" th:text="${ct.email}"></a></li>
 					</ul>
 				</div>
-				<div class="col-lg-8">
+				<!-- <div class="col-lg-8">
 					<marquee direction="right">Thietbikhangan.vn Xin Kính
 						Chào Quý Khách.</marquee>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -31,23 +34,31 @@
 					style="height: fit-content; display: block;">
 					<div class="categories-wrapper">
 						<input type="hidden" id="suggestSearch"
-							value="Máy cắt sắt Dewalt BẢO HÀNH 3 NĂM; Máy rửa xe mini giá rẻ; Máy cắt sắt | giá chỉ 1tr 750; Thang nhôm chữ A | giá chỉ 899.000đ; Thang nhôm rút gọn | giá chỉ 1tr 479; Thang ghế | giá chỉ 790.000đ; Mũ hàn điện tử | giá chỉ 320.000đ; Kính hàn điện tử | giá chỉ 240.000đ; Máy xịt rửa | giá chỉ 1tr 350; Máy cắt Plasma | giá chỉ 4tr 600; Máy hàn Mig | giá chỉ 5tr 400; Máy hàn Tig | giá chỉ 3tr 200; Máy hàn que | giá chỉ 1tr 250; Ghế xếp đa năng | giá chỉ 690.000đ; Máy chính hãng 100%; Máy hàn Hồng Ký | giảm đến 30%; Máy hàn Weldcom chính hãng, chất lượng; Máy hàn Jasic | giảm đến 25%; Giường xếp văn phòng | giá 910.000đ; Ghế xếp thư giản | giảm giá đến 33%; Giường Gấp Nâng Đầu HQ | giá chỉ 2tr 157; Máy xịt rửa Michelin MPX25EH: 4.800.000đ | FREE SHIP; Máy xịt rửa Michelin MPX17EH: 3.700.000đ | FREE SHIP; Máy xịt rửa Michelin MPX14E: 2.499.000đ | FREE SHIP; Siêu khuyến mãi | giảm giá lên đến 40% ; Máy hàn MIG không dùng khí : 5tr 400; Mua nhiều - giảm nhiều; thietbikhangan.vn uy tín - chất lượng ; Mua Máy hàn que HK 200N tặng kính hàn">
-						<form action="#">
-							<input placeholder="Enter Your key word" type="text" id="search"
+							th:attr="value = ${keywords}">
+						<form action="#" th:action="@{/category-product-page}"  method="get">
+							<input placeholder="Enter Your key word" type="text"  name="keyword" id="search" required="required"
 								style="width: 100%">
-							<button type="button"><img alt="" th:src="@{/images/icons/search-icon.png}"/></button>
+							<div class="button-search">
+								<button type="submit">
+									<img alt="" th:src="@{/images/icons/search-icon.png}" />
+								</button>
+								<button type="button" onclick="actionScanQRCode()">
+									<img alt="" th:src="@{/images/icons/qr-code.png}" />
+								</button>
+							</div>
 						</form>
 					</div>
 				</div>
-				<div class="search-list responsive-autocomplete col-lg-12" style="display: none;">
+				<div class="search-list responsive-autocomplete col-lg-12"
+					style="display: none;">
 					<ul class="scrollable"></ul>
 				</div>
 			</div>
 			<div class="col-lg-2 header-cart-3">
-				<a th:href="@{/cart-page}" class="cart-number"> <i class="ti-shopping-cart"></i>Giỏ
-					hàng <span th:if="${session.sizeCartItem}"
-					th:text="${session.sizeCartItem}"></span> <span
-					th:unless="${session.sizeCartItem}">0</span>
+				<a th:href="@{/cart-page}" class="cart-number"> <i
+					class="ti-shopping-cart"></i>Giỏ hàng <span
+					th:if="${session.sizeCartItem}" th:text="${session.sizeCartItem}"></span>
+					<span th:unless="${session.sizeCartItem}">0</span>
 				</a>
 				<ul th:unless="${disabled}" class="cart-dropdown">
 					<li class="single-product-cart" th:each="key: ${session.cartItem}">
@@ -56,16 +67,23 @@
 						</div>
 						<div class="cart-title">
 							<h5 th:if="${key !=null}">
-								<a href="#" th:text="${key['value'].products.getProductName()}"></a>
+								<a
+									th:href="@{/detail-page(id=${key['value'].products.getProductCode()})}"
+									th:text="${key['value'].products.getProductName()}"></a>
 							</h5>
 							<span th:if="${key['value'].products.getPriceDiscount() <=0}"
 								th:text="${#numbers.formatInteger(key['value'].products.getPrice(),1,'POINT')+ 'đ'+' X '+ key['value'].quantities}"></span>
-						    <span th:unless="${key['value'].products.getPriceDiscount() <=0}"
+							<span th:unless="${key['value'].products.getPriceDiscount() <=0}"
 								th:text="${#numbers.formatInteger(key['value'].products.getPriceDiscount(),1,'POINT')+ 'đ'+' X '+ key['value'].quantities}"></span>
 						</div>
 						<div class="cart-delete">
-							<a href="#" th:if="${key['value'].products.getPriceDiscount() <=0}" th:class="${key['value'].products.getProductCode() + ' ' + key['value'].products.getPrice() + ' ' + key['value'].quantities +' removeCart'}"><i class="ti-trash"></i></a>
-							<a href="#" th:unless="${key['value'].products.getPriceDiscount() <=0}" th:class="${key['value'].products.getProductCode() + ' ' + key['value'].products.getPriceDiscount()+ ' ' + key['value'].quantities +' removeCart'}"><i class="ti-trash"></i></a>
+							<a href="#"
+								th:if="${key['value'].products.getPriceDiscount() <=0}"
+								th:class="${key['value'].products.getProductCode() + ' ' + key['value'].products.getPrice() + ' ' + key['value'].quantities +' removeCart'}"><i
+								class="ti-trash"></i></a> <a href="#"
+								th:unless="${key['value'].products.getPriceDiscount() <=0}"
+								th:class="${key['value'].products.getProductCode() + ' ' + key['value'].products.getPriceDiscount()+ ' ' + key['value'].quantities +' removeCart'}"><i
+								class="ti-trash"></i></a>
 						</div>
 					</li>
 					<li class="cart-space">
@@ -79,68 +97,21 @@
 						</div>
 					</li>
 					<li class="cart-btn-wrapper"><a class="cart-btn btn-hover"
-						href="#">Xem giỏ hàng</a></li>
+						th:href="@{/cart-page}">Xem giỏ hàng</a></li>
 				</ul>
 			</div>
 			<div class="mobile-menu-area mobile-menu-none-block electro-2-menu">
 				<div class="mobile-menu">
 					<nav id="mobile-menu-active">
 						<ul class="menu-overflow">
-							<li><a href="#">Trang chủ</a>
+							<li><a href="#">Danh Mục</a>
 								<ul>
-									<li><a href="index.html">Fashion</a></li>
-									<li><a href="index-fashion-2.html">Fashion style 2</a></li>
-									<li><a href="index-fruits.html">Fruits</a></li>
-									<li><a href="index-book.html">book</a></li>
-									<li><a href="index-electronics.html">electronics</a></li>
-									<li><a href="index-electronics-2.html">electronics
-											style 2</a></li>
-									<li><a href="index-food.html">food & drink</a></li>
-									<li><a href="index-furniture.html">furniture</a></li>
-									<li><a href="index-handicraft.html">handicraft</a></li>
-									<li><a href="index-smart-watch.html">smart watch</a></li>
-									<li><a href="index-sports.html">sports</a></li>
+									<li th:each="categ2, iStat : ${category2}"><a
+										th:href="${categ2.pathUrl}" th:text="${categ2.description}"></a></li>
 								</ul></li>
-							<li><a href="#">Giới thiệu</a>
-								<ul>
-									<li><a href="about-us.html">about us</a></li>
-									<li><a href="menu-list.html">menu list</a></li>
-									<li><a href="login.html">login</a></li>
-									<li><a href="register.html">register</a></li>
-									<li><a href="cart.html">cart page</a></li>
-									<li><a href="checkout.html">checkout</a></li>
-									<li><a href="wishlist.html">wishlist</a></li>
-									<li><a href="contact.html">contact</a></li>
-								</ul></li>
-							<li><a href="#">Dịch vụ</a>
-								<ul>
-									<li><a href="shop-grid-2-col.html"> grid 2 column</a></li>
-									<li><a href="shop-grid-3-col.html"> grid 3 column</a></li>
-									<li><a href="shop.html">grid 4 column</a></li>
-									<li><a href="shop-grid-box.html">grid box style</a></li>
-									<li><a href="shop-list-1-col.html"> list 1 column</a></li>
-									<li><a href="shop-list-2-col.html">list 2 column</a></li>
-									<li><a href="shop-list-box.html">list box style</a></li>
-									<li><a href="product-details.html">tab style 1</a></li>
-									<li><a href="product-details-2.html">tab style 2</a></li>
-									<li><a href="product-details-3.html"> tab style 3</a></li>
-									<li><a href="product-details-4.html">sticky style</a></li>
-									<li><a href="product-details-5.html">sticky style 2</a></li>
-									<li><a href="product-details-6.html">gallery style</a></li>
-									<li><a href="product-details-7.html">gallery style 2</a></li>
-									<li><a href="product-details-8.html">fixed image style</a></li>
-									<li><a href="product-details-9.html">fixed image style
-											2</a></li>
-								</ul></li>
-							<li><a href="#">Tin tức</a>
-								<ul>
-									<li><a href="blog.html">blog 3 colunm</a></li>
-									<li><a href="blog-2-col.html">blog 2 colunm</a></li>
-									<li><a href="blog-sidebar.html">blog sidebar</a></li>
-									<li><a href="blog-details.html">blog details</a></li>
-									<li><a href="blog-details-sidebar.html">blog details 2</a></li>
-								</ul></li>
-							<li><a href="contact.html">Liên hệ</a></li>
+							<li th:each="menuItem, iStat : ${menuItems}"><a
+								th:href="${menuItem.pathUrl}" th:text="${menuItem.description}"><span
+									th:if="${iStat.index == '0'}" class="sticker-new">hot</span></a></li>
 						</ul>
 					</nav>
 				</div>
@@ -157,198 +128,11 @@
 					</h3>
 					<div class="category-menu-list" style="display: none;">
 						<ul>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/15.png}">Computer & Laptop <i
-									class="pe-7s-angle-right"></i></a>
-								<div class="category-menu-dropdown">
-									<div class="category-dropdown-style category-common4 mb-40">
-										<h4 class="categories-subtitle">Desktop</h4>
-										<ul>
-											<li><a href="#"> Mother Board</a></li>
-											<li><a href="#"> Power Supply</a></li>
-											<li><a href="#"> RAM</a></li>
-											<li><a href="#"> Graphics Card</a></li>
-											<li><a href="#"> Hard Disk Drive</a></li>
-											<li><a href="#">Cooling Fan</a></li>
-											<li><a href="#">HD Cable</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common4 mb-40">
-										<h4 class="categories-subtitle">Laptop</h4>
-										<ul>
-											<li><a href="#">HP</a></li>
-											<li><a href="#">lenovo</a></li>
-											<li><a href="#"> vivo</a></li>
-											<li><a href="#"> Mack Book Air</a></li>
-											<li><a href="#"> Mack Book Pro</a></li>
-											<li><a href="#"> LG</a></li>
-											<li><a href="#"> Others Brand</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common4 mb-40">
-										<h4 class="categories-subtitle">Others</h4>
-										<ul>
-											<li><a href="#">Monitor</a></li>
-											<li><a href="#">Mouse</a></li>
-											<li><a href="#">Keybord</a></li>
-											<li><a href="#">Speaker</a></li>
-											<li><a href="#">Joy Stick</a></li>
-											<li><a href="#">Wireless Speaker</a></li>
-											<li><a href="#">Software</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common4 mb-40">
-										<h4 class="categories-subtitle">Accessories</h4>
-										<ul class="border-none">
-											<li><a href="#">Monitor</a></li>
-											<li><a href="#">Mouse</a></li>
-											<li><a href="#">Keybord</a></li>
-											<li><a href="#">Speaker</a></li>
-											<li><a href="#">Joy Stick</a></li>
-											<li><a href="#">Wireless Speaker</a></li>
-											<li><a href="#">Software</a></li>
-										</ul>
-									</div>
-									<div class="mega-banner-img">
-										<a href="single-product.html"> <img
-											src="assets/img/banner/18.jpg" alt="">
-										</a>
-									</div>
-								</div></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/16.png}">Phone & Tablets <i
-									class="pe-7s-angle-right"></i></a>
-								<div class="category-menu-dropdown">
-									<div class="category-dropdown-style category-common4">
-										<h4 class="categories-subtitle">Desktop</h4>
-										<ul>
-											<li><a href="#"> Mother Board</a></li>
-											<li><a href="#"> Power Supply</a></li>
-											<li><a href="#"> RAM</a></li>
-											<li><a href="#"> Graphics Card</a></li>
-											<li><a href="#"> Hard Disk Drive</a></li>
-											<li><a href="#">Cooling Fan</a></li>
-											<li><a href="#">HD Cable</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common4">
-										<h4 class="categories-subtitle">Laptop</h4>
-										<ul>
-											<li><a href="#">HP</a></li>
-											<li><a href="#">lenovo</a></li>
-											<li><a href="#"> vivo</a></li>
-											<li><a href="#"> Mack Book Air</a></li>
-											<li><a href="#"> Mack Book Pro</a></li>
-											<li><a href="#"> LG</a></li>
-											<li><a href="#"> Others Brand</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common4">
-										<h4 class="categories-subtitle">Others</h4>
-										<ul>
-											<li><a href="#">Monitor</a></li>
-											<li><a href="#">Mouse</a></li>
-											<li><a href="#">Keybord</a></li>
-											<li><a href="#">Speaker</a></li>
-											<li><a href="#">Joy Stick</a></li>
-											<li><a href="#">Wireless Speaker</a></li>
-											<li><a href="#">Software</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common4">
-										<h4 class="categories-subtitle">Accessories</h4>
-										<ul class="border-none">
-											<li><a href="#">Monitor</a></li>
-											<li><a href="#">Mouse</a></li>
-											<li><a href="#">Keybord</a></li>
-											<li><a href="#">Speaker</a></li>
-											<li><a href="#">Joy Stick</a></li>
-											<li><a href="#">Wireless Speaker</a></li>
-											<li><a href="#">Software</a></li>
-										</ul>
-									</div>
-								</div></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/17.png}"> Camera & Photos<i
-									class="pe-7s-angle-right"></i></a>
-								<div class="category-menu-dropdown">
-									<div class="category-dropdown-style category-common3">
-										<h4 class="categories-subtitle">Desktop</h4>
-										<ul>
-											<li><a href="#"> Mother Board</a></li>
-											<li><a href="#"> Power Supply</a></li>
-											<li><a href="#"> RAM</a></li>
-											<li><a href="#"> Graphics Card</a></li>
-											<li><a href="#"> Hard Disk Drive</a></li>
-											<li><a href="#">Cooling Fan</a></li>
-											<li><a href="#">HD Cable</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common3">
-										<h4 class="categories-subtitle">Laptop</h4>
-										<ul>
-											<li><a href="#">HP</a></li>
-											<li><a href="#">lenovo</a></li>
-											<li><a href="#"> vivo</a></li>
-											<li><a href="#"> Mack Book Air</a></li>
-											<li><a href="#"> Mack Book Pro</a></li>
-											<li><a href="#"> LG</a></li>
-											<li><a href="#"> Others Brand</a></li>
-										</ul>
-									</div>
-									<div class="category-dropdown-style category-common3">
-										<h4 class="categories-subtitle">Others</h4>
-										<ul class="border-none">
-											<li><a href="#">Monitor</a></li>
-											<li><a href="#">Mouse</a></li>
-											<li><a href="#">Keybord</a></li>
-											<li><a href="#">Speaker</a></li>
-											<li><a href="#">Joy Stick</a></li>
-											<li><a href="#">Wireless Speaker</a></li>
-											<li><a href="#">Software</a></li>
-										</ul>
-									</div>
-								</div></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/18.png}">TV & Audio </a>
-								<div class="category-menu-dropdown">
-									<div class="category-dropdown-style category-common3">
-										<h4 class="categories-subtitle">Desktop</h4>
-										<ul>
-											<li><a href="#"> Mother Board</a>
-												<div class="category-menu-dropdown_2">
-													<div class="category-dropdown-style category-common3">
-														<h4 class="categories-subtitle">Desktop</h4>
-														<ul>
-															<li><a href="#"> Mother Board</a></li>
-															<li><a href="#"> Power Supply</a></li>
-															<li><a href="#"> RAM</a></li>
-															<li><a href="#"> Graphics Card</a></li>
-															<li><a href="#"> Hard Disk Drive</a></li>
-															<li><a href="#">Cooling Fan</a></li>
-															<li><a href="#">HD Cable</a></li>
-														</ul>
-													</div>
-												</div></li>
-											<li><a href="#"> Power Supply</a></li>
-											<li><a href="#"> RAM</a></li>
-											<li><a href="#"> Graphics Card</a></li>
-											<li><a href="#"> Hard Disk Drive</a></li>
-											<li><a href="#">Cooling Fan</a></li>
-											<li><a href="#">HD Cable</a></li>
-										</ul>
-									</div>
-								</div></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/19.png}"> Game & Play Station</a></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/20.png}"> Car Electronics </a></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/21.png}"> Accessories </a></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/22.png}"> Gadgets</a></li>
-							<li><a href="#"><img alt=""
-									th:src="@{/images/icons/23.png}">Others Equipment</a></li>
+							<li th:each="categ2, iStat : ${category2}"><a
+								th:href="${categ2.pathUrl + '?&category=' + categ2.category2Id}"><img
+									alt="" th:src="@{/images/icons/15.png}"><span
+									th:text="${categ2.description}"></span><i
+									class="pe-7s-angle-right"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -356,16 +140,56 @@
 			<div class="menu-style-4 menu-hover">
 				<nav>
 					<ul>
-						<li><a th:href="@{/home-page}">Trang chủ <span
-								class="sticker-new">hot</span></a></li>
-						<li><a href="#">Giới thiệu</a></li>
-						<li><a href="#">Dịch vụ</a></li>
-						<li><a href="#">Tin tức</a></li>
-						<li><a th:href="@{/contact-page}">Liên hệ</a></li>
+						<li th:each="menuItem, iStat : ${menuItems}"><a
+							th:href="${menuItem.pathUrl}" th:text="${menuItem.description}"><span
+								th:if="${iStat.index == '0'}" class="sticker-new">hot</span></a></li>
 					</ul>
 				</nav>
 			</div>
 		</div>
 	</div>
 	<!-- Navigation -->
+	<nav th:if="${bCrumbDisaled == null}" aria-label="breadcrumb">
+		<ol class="breadcrumb breadcrumb-product">
+			<li th:if="${menuItem != null}" class="breadcrumb-item"><a
+				th:href="${menuItem.getPathUrl()}"><i
+					th:text="${menuItem.getDescription()}"></i></a></li>
+			<li th:if="${allProduct != null}" class="breadcrumb-item active"
+				aria-current="page"><a href="/category-product-page"><i>Tất
+						cả sản phẩm</i></a></li>
+			<li th:if="${trading !=null}" class="breadcrumb-item"><a
+				th:href="${trading.getPathUrl() + '?&trading=' + trading.getCategory1Id()}"
+				th:text="${trading.getDescription()}"><i></i></a></li>
+			<li th:if="${category != null}" class="breadcrumb-item"><a
+				th:href="${category.getPathUrl() + '?&category=' + category.getCategory2Id()}"><i
+					th:text="${category.getDescription()}"></i></a></li>
+			<li th:if="${product !=null}" class="breadcrumb-item active"
+				aria-current="page"><i th:text="${product.productName}"></i></li>
+			<li th:if="${contact_bc != null}" class="breadcrumb-item active"
+				aria-current="page"><i
+				th:text="${contact_bc.getDescription()}"></i></li>
+		</ol>
+	</nav>
+	<!-- Modal -->
+	<div class="modal fade" id="QRCodeModal" tabindex="-1" role="dialog"
+		aria-labelledby="QRCodeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="QRCodeModalLabel">Scan Your QR Code</h5>
+					<button type="button" class="close" data-dismiss="modal" id="button-x"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body modal-QRCode">
+					<video width="100%" height="100%"id="preview"></video>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="button-close"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

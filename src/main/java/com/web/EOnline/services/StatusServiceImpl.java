@@ -21,7 +21,7 @@ public class StatusServiceImpl implements StatusService{
 	@Override
 	public Statuses createStatus(Statuses status) {
 		try {
-			statusProductRepository.save(status);
+			return statusProductRepository.save(status);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -29,8 +29,12 @@ public class StatusServiceImpl implements StatusService{
 	}
 
 	@Override
-	public Statuses updateStatus(Statuses Status) {
-		// TODO Auto-generated method stub
+	public Statuses updateStatus(Statuses status) {
+		try {
+			return statusProductRepository.save(status);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return null;
 	}
 

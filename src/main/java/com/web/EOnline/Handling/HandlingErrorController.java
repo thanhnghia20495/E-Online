@@ -1,4 +1,4 @@
-package com.web.EOnline.controller;
+package com.web.EOnline.Handling;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;

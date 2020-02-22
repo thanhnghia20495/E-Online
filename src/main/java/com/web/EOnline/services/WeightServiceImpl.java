@@ -9,11 +9,11 @@ import com.web.EOnline.entities.Weights;
 import com.web.EOnline.repositories.WeightProductRepository;
 
 @Service
-public class WeightServiceImpl implements WeightService{
-	
+public class WeightServiceImpl implements WeightService {
+
 	@Autowired
 	WeightProductRepository weightProductRepository;
-	
+
 	@Override
 	public Weights findWeightById(int weightCode) {
 		// TODO Auto-generated method stub
@@ -23,7 +23,7 @@ public class WeightServiceImpl implements WeightService{
 	@Override
 	public Weights createWeight(Weights weights) {
 		try {
-			weightProductRepository.save(weights);
+			return weightProductRepository.save(weights);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -32,7 +32,11 @@ public class WeightServiceImpl implements WeightService{
 
 	@Override
 	public Weights updateWeight(Weights weights) {
-		// TODO Auto-generated method stub
+		try {
+			return weightProductRepository.save(weights);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return null;
 	}
 

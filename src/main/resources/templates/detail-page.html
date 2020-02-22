@@ -9,8 +9,7 @@
 
 <body>
 	<div class="container-fluid" layout:fragment="content">
-
-		<div class="product-details ptb-20 pb-90">
+		<div class="product-details pb-90">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 col-lg-7 col-12">
@@ -70,30 +69,41 @@
 							</div>
 							<div class="col-lg-12">
 								<div class="details-price-old">
-									<span th:text="${#numbers.formatInteger(product.price,3,'POINT')+ 'đ'}"></span>
+									<span
+										th:text="${#numbers.formatInteger(product.price,3,'POINT')+ 'đ'}"></span>
 								</div>
 								<div class="details-price-current">
-									<span th:text="${#numbers.formatInteger(product.priceDiscount,3,'POINT')+ 'đ'}"></span> <span class="percen_discount" th:text="${'-'+product.percentageDiscount} +'%'"></span>
+									<span
+										th:text="${#numbers.formatInteger(product.priceDiscount,3,'POINT')+ 'đ'}"></span>
+									<span class="percen_discount"
+										th:text="${'-'+product.percentageDiscount} +'%'"></span>
 								</div>
 							</div>
 							<div class="product-info-text">
+							<a th:href="${#httpServletRequest.getContextPath() + '/qrcode/' + product.productCode}"><img th:src="${#httpServletRequest.getContextPath() + '/qrcode/' + product.productCode}" class="qr-code" width="100" height="100"></a>
 								<p>
-									<span>Thương hiệu: </span><a href="" th:text=${#strings.toUpperCase(product.tradeMark.description)}>HỒNG KÝ</a>
+									<span>Thương hiệu: </span><a href=""
+										th:text=${#strings.toUpperCase(product.tradeMark.description)}>HỒNG
+										KÝ</a>
 								</p>
 								<p>
-									<span>Mã sản phẩm: </span><b id="productCode" th:text=${product.productCode}></b>
+									<span>Mã sản phẩm: </span><b id="productCode"
+										th:text=${product.productCode}></b>
 								</p>
 								<p>
 									<span>Bảo hành: </span><b th:text=${product.guarantee}></b>
 								</p>
 								<p>
-									<span>Công nghệ: </span><b th:text=${product.technology.description}></b>
+									<span>Công nghệ: </span><b
+										th:text=${product.technology.description}></b>
 								</p>
 								<p>
-									<span>Trọng lượng: </span><b th:text=${product.weight.description}></b>
+									<span>Trọng lượng: </span><b
+										th:text=${product.weight.description}></b>
 								</p>
 								<p>
-									<span>Tình trạng: </span><b th:text=${product.status.description}></b>
+									<span>Tình trạng: </span><b
+										th:text=${product.status.description}></b>
 								</p>
 								<p>
 									<span th:text=${product.vat.description}></span>
@@ -101,53 +111,29 @@
 								<p>
 									<span>Lượt xem: </span><b th:text=${product.views}></b>
 								</p>
-								<p>Máy Hàn Điện Tử Hồng Ký SR 200R Cam Kết Chính Hãng. Nhanh
-									Tay Đặt Hàng Ngay Để Được Gía Tốt, Tư Vấn Tận Tình Bảo Hành
-									Chuyên Nghiệp</p>
+								<p th:if = "${product.optionYoutube != '' && product.optionYoutube =='Y'}"><span style="" class="youtube-link" th:youtubeid="${product.youtube.youtubeId}"></span></p>
+								<p th:text=${product.description}></p>
 							</div>
 							<div class="quickview-plus-minus">
 								<div class="cart-plus-minus">
 									<input type="text" value="1" name="qtybutton"
-										class="cart-plus-minus-box">
+										id="intLimitTextBox" class="cart-plus-minus-box">
 								</div>
 								<div class="quickview-btn-cart">
-									<a class="btn-hover-black" id="addToCart" href="#">add to cart</a>
+									<a class="btn-hover-black" id="addToCart"
+										href="javascript:void(0);"
+										th:attr="onclick='shoppingCart(\''+${product.productCode}+'\')'">add
+										to cart</a>
 								</div>
 							</div>
-							<div class="product-details-cati-tag mt-35">
-								<ul>
-									<li class="categories-title">Categories :</li>
-									<li><a href="#">fashion</a></li>
-									<li><a href="#">electronics</a></li>
-									<li><a href="#">toys</a></li>
-									<li><a href="#">food</a></li>
-									<li><a href="#">jewellery</a></li>
-								</ul>
-							</div>
-							<div class="product-details-cati-tag mtb-10">
-								<ul>
-									<li class="categories-title">Tags :</li>
-									<li><a href="#">fashion</a></li>
-									<li><a href="#">electronics</a></li>
-									<li><a href="#">toys</a></li>
-									<li><a href="#">food</a></li>
-									<li><a href="#">jewellery</a></li>
-								</ul>
-							</div>
-							<div class="product-share">
+							<div class="product-share" style=" margin-top: 20px;">
 								<ul>
 									<li class="categories-title">Share :</li>
-									<li><a href="#"> <i
+									<li><a th:href="${fb.link}"> <i
 											class="icofont icofont-social-facebook"></i>
 									</a></li>
-									<li><a href="#"> <i
-											class="icofont icofont-social-twitter"></i>
-									</a></li>
-									<li><a href="#"> <i
-											class="icofont icofont-social-pinterest"></i>
-									</a></li>
-									<li><a href="#"> <i
-											class="icofont icofont-social-flikr"></i>
+									<li><a th:href="${youtube.link}"> <i
+											class="icofont icofont-youtube-play"></i>
 									</a></li>
 								</ul>
 							</div>
@@ -156,14 +142,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="product-description-review-area pb-90">
+		<div class="product-description-review-area">
 			<div class="container-fluid">
 				<div class="product-description-review text-center">
 					<div class="description-review-title nav" role=tablist>
 						<a class="active" href="#pro-dec" data-toggle="tab" role="tab"
-							aria-selected="true"> Description </a> <a href="#pro-review"
+							aria-selected="true">THÔNG TIN SẢN PHẨM</a> <a href="#pro-review"
 							data-toggle="tab" role="tab" aria-selected="false">
-							Specifications </a>
+						THÔNG SỐ KỸ THUẬT </a>
 					</div>
 					<div class="description-review-text tab-content">
 						<div class="tab-pane active show fade" id="pro-dec"
@@ -183,373 +169,6 @@
 								</h2>
 
 								<p>&nbsp;</p>
-
-								<p style="margin-bottom: 0cm; margin-bottom: .0001pt;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">Đặc
-												bi</span><span style="color: black;">ệt hơn có đồng hồ dòng
-												hàn điện tử, nhằm tối ưu hóa những hạn chế của các dòng mày
-												hàn điện tử đang có trên thị trường Việt Nam.&nbsp;</span><strong>Hồng
-												Ký</strong> đã nghiên cứu, phát triển và cho ra đời thế hệ&nbsp;máy
-											hàn que điện tử&nbsp;mới SR200R với nhiều ưu điểm và tính
-											năng vượt trội. <strong font-size:="" new=""
-											style="font-family:" times=""><u><em>(Chú
-														ý:&nbsp;<a
-														href="https://thietbikhangan.vn/san-pham/may-han-que-dien-tu-ziziweld-zarc-2500-1003.html"
-														style="color: black; text-decoration: none">máy hàn
-															que liên tục 2.5mm</a>)&nbsp;Que hàn&nbsp;3.2mm chỉ hàn được
-														10-15 que trong thời gian nhất định.
-												</em></u></strong></span></span>
-								</p>
-
-								<p style="margin-bottom: 0cm; margin-bottom: .0001pt;">&nbsp;</p>
-
-								<h2
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><u><em><strong><span
-														style="color: #FF0000;">1/ Công Năng Của </span><a
-														href="https://thietbikhangan.vn/san-pham/may-han-que-dien-tu-hong-ky-hk-200z-35.html"
-														style="color: black; text-decoration: none"><span
-															style="color: #FF0000;">Máy Hàn Que Hồng Ký</span></a><span
-														style="color: #FF0000;"> SR200R</span></strong><span
-													style="color: #FF0000;">&nbsp;</span></em></u></span></span>
-								</h2>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-
-												Với việc ứng dụng công nghệ hàn tiên tiến IGBT, <strong><a
-													href="https://thietbikhangan.vn/tim-kiem.html&amp;keyword=200n"
-													style="color: black; text-decoration: none">máy hàn
-														điện tử Hồng Ký</a> SR200R</strong> thích hợp hàn trên các vật liệu
-												inox, sắt, nên có thể ứng dụng để hàn cửa sắt, sản xuất các
-												mặt hàng Inox. Và là sản phẩm tiện lợi để sử dụng hàn từ vật
-												dụng gia đình đến công nghiệp và xây dựng.&nbsp;
-										</span></span></span>
-								</p>
-
-								<p style="text-align: center">
-									<img alt="Máy hàn điện tử Hồng Ký SR 200R" height="720"
-										src="https://thietbikhangan.vn/upload/images/may-han-dien-tu-hong-ky-sr-200r-1.png"
-										width="720">
-								</p>
-
-								<h3
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px; text-align: center;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><strong><span
-												style="color: #111111;">&nbsp;</span><span
-												style="color: #0000FF;">Máy hàn que Hồng Ký SR200R
-													thiết kế hiện đại</span></strong></span></span>
-								</h3>
-
-								<p>&nbsp;</p>
-
-								<h2
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><u><em><strong><span
-														style="color: #FF0000;">2/ </span><a
-														href="https://thietbikhangan.vn/san-pham/may-han-que-dien-tu-hong-ky-hk200a-36.html"
-														style="color: black; text-decoration: none"><span
-															style="color: #FF0000;">Máy hàn que Hồng Ký</span></a><span
-														style="color: #FF0000;"> SR200R sử dụng công suất
-															mạnh mẽ:</span></strong></em></u></span></span>
-								</h2>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-<strong>&nbsp;Máy
-													hàn Hồng ký SR200R</strong>&nbsp;là dò
-										</span><span style="color: black;">ng&nbsp;<span
-												style="text-decoration: none; text-underline: none;">máy
-													hàn que</span>&nbsp;m
-										</span><span style="color: #111111;">ột pha (220V) ứng dụng
-												công nghệ <strong>INVERTER ARC</strong>.
-										</span></span></span>
-								</p>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-
-												<strong>Máy hàn điện tử SR200R</strong> có công suất đầu ra
-												8.4 KVA rất mạnh, đáp ứng công việc hiệu quả nhanh chóng
-												thích hợp sử dụng cho que hàn từ 1.6 – 3.2mm. Điều chỉnh
-												dòng điện ra từ 20 – 200A. Hiệu suất làm việc trung bình đạt
-												60%.
-										</span></span></span>
-								</p>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">&nbsp;<span
-												style="color: black;">- <strong>Máy hàn điện
-														tử SR 200R</strong> là sản phẩm đa dụng vì có thể hàn trên các vật
-													liệu inox, sắt… và vật liệu mỏng cho mối hàn tuyệt đẹp với
-													thời gian hàn không giới hạn, mồi lửa nhạy và hệ thống dẫn
-													nhiệt rất tốt.
-											</span></span></span></span>
-								</p>
-
-								<h2
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">&nbsp;</h2>
-
-								<h2
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><strong><u><span
-												style="font-size: 18px;"><em><span
-														style="color: #FF0000;">3/ </span><strong font-size:=""
-														new="" style="font-family:" times=""><a
-															href="https://thietbikhangan.vn/san-pham/may-han-que-dien-tu-hong-ky-hk-215-591.html"
-															style="color: black; text-decoration: none"><span
-																style="color: #FF0000;">Máy hàn que Hồng Ký</span></a><span
-															style="color: #FF0000;"> SR200R có t</span></strong><span
-														style="color: #FF0000;">hiết kế hiện đại, tiện lợi:</span></em></span></u></strong></span>
-								</h2>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-
-												Trọng lượng máy nhẹ chỉ ở mức 6.0kg, thiết kế nhỏ, gọn nhẹ,
-												chắc chắn, thuận tiện cho người sử dụng dễ dàng thao tác,
-												vận chuyển trong nhiều điều kiện làm việc khác nhau.&nbsp;</span></span></span>
-								</p>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">&nbsp;</p>
-
-								<h2
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><u><em><span
-													style="color: #FF0000;"><strong>4/ </strong></span><a
-													href="https://thietbikhangan.vn/san-pham/may-han-que-dien-tu-hong-ky-hk250t-37.html"><span
-														style="color: #FF0000;"><strong><strong
-																font-size:="" new="" style="font-family:" times="">Máy
-																	hàn que Hồng Ký t</strong></strong></span></a><strong><a
-														href="https://thietbikhangan.vn/san-pham/may-han-que-dien-tu-hong-ky-hk250t-37.html"
-														style="color: black; text-decoration: none"><span
-															style="color: #FF0000;">iết kiệm và an toàn</span></a><span
-														style="color: #FF0000;">:</span></strong></em></u></span></span>
-								</h2>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-
-												Ưu điểm của <strong><a
-													href="https://thietbikhangan.vn/san-pham/may-han-inverter-hong-ky-hk-tig-200a-108.html"
-													style="color: black; text-decoration: none">Máy hàn
-														điện tử</a> SR 200R </strong>khiến nhiều khách hàng lựa chọn là máy có
-												thể hoạt động ổn định được cả khi điện yếu (&gt;180V).
-										</span></span></span>
-								</p>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-
-												<em><a
-													href="https://thietbikhangan.vn/san-pham/may-han-que-4/"
-													style="color: black; text-decoration: none"><strong>Máy
-															hàn que có ứng dụng công nghệ INVERTER</strong></a> </em>nên máy có khả
-												năng tiết kiệm năng lượng đến 50% – 60% điện năng so
-												với&nbsp;<a
-												61="" href="https://thietbikhangan.vn/san-pham/may-bien-the-han-hong-ky/61"
-												style="color: blue; text-decoration: none"><strong><span
-														style="text-decoration: none; text-underline: none;">máy
-															hàn que</span>&nbsp;truyền thống</strong></a>.
-										</span></span></span>
-								</p>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #111111;">-
-												<strong>Máy hàn điện tử SR200R</strong> còn có chế độ bảo vệ
-												(tự ngắt) khi quá nhiệt, quá tải hoặc nguồn điện không ổn
-												định giúp máy làm việc bền bỉ hơn. Chế độ chống giật (250TP,
-												315l, 400l) đảm bảo an toàn cho người sử dụng khi làm việc
-												với SR 200R ở môi trường ẩm ướt.&nbsp;
-										</span></span></span>
-								</p>
-
-								<p
-									style="margin-bottom: 0cm; margin-bottom: .0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; text-align: start; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px;">&nbsp;</p>
-
-								<p style="text-align: center">
-									<img alt="Máy hàn điện tử Hồng Ký SR 200R" height="400"
-										src="https://thietbikhangan.vn/upload/images/may-han-dien-tu-hong-ky-sr-200r-2.jpg"
-										width="400">
-								</p>
-
-								<h3
-									style="margin-bottom: 0.0001pt; font-variant-ligatures: normal; font-variant-caps: normal; orphans: 2; widows: 2; -webkit-text-stroke-width: 0px; text-decoration-style: initial; word-spacing: 0px; text-align: center;">
-									<span style="font-family: times new roman, times, serif;"><span
-										style="font-size: 18px;"><span style="color: #0000FF;"><strong>Máy
-													hàn que Hồng Ký SR200R thiết kế nhỏ gọn</strong></span></span></span>
-								</h3>
-
-								<div style="outline: none; box-sizing: border-box;">
-									<p style="margin-bottom: 0.0001pt; background: white;">&nbsp;</p>
-
-									<div
-										style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: Arial, Helvetica, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);">
-										<span style="font-family: times new roman, times, serif;"><span
-											style="font-size: 18px;"><span
-												style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-													style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-														style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-															new=""
-															style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-															times=""><strong
-																style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(34, 34, 34);">--------------------------------------------------------------------------------------------------</span></strong></span></span></span></span></span></span>
-									</div>
-
-									<div
-										style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: Arial, Helvetica, sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);">
-										<p
-											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: Arial, Helvetica, sans-serif; background: rgb(255, 255, 255);">
-											<span
-												style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: &amp; amp;"><span
-												new=""
-												style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-												times=""><span
-													style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-size: 18px;"><span
-														new=""
-														style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-														times=""><span
-															style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">+&nbsp;</span><span
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: mediumblue;">Thietbikhangan.vn&nbsp;</span><span
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">là
-																		Nhà phân phối&nbsp;các dòng&nbsp;<a
-																		href="https://thietbikhangan.vn/san-pham/may-han-va-phu-kien-4"
-																		style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: black; text-decoration-line: none;"><strong
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">máy
-																				hàn điện, máy hàn điện tử, máy cắt Plasma</strong></a>&nbsp;của
-																		các hãng nổi tiếng như:&nbsp;<strong
-																		style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><a
-																			href="https://thietbikhangan.vn/tim-kiem.html&amp;keyword=h%E1%BB%93ng%20k%C3%BD&amp;p=2"
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																				style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">Hồng
-																					Ký</span></a><span
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">,&nbsp;</span><a
-																			href="https://thietbikhangan.vn/tim-kiem.html&amp;keyword=jasic"
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																				style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">Jasic</span></a><span
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">,&nbsp;</span><a
-																			href="https://thietbikhangan.vn/tim-kiem.html&amp;keyword=Weldcom"
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																				style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">Weldcom</span></a><span
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">,&nbsp;</span><a
-																			href="https://thietbikhangan.vn/tim-kiem.html&amp;keyword=Protech"
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																				style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">Protech</span></a><span
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">,&nbsp;</span><a
-																			href="https://thietbikhangan.vn/tim-kiem.html&amp;keyword=Ziziweld"
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																				style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(255, 0, 0);">Ziziweld</span></a></strong>.
-																		Công ty chúng tôi luôn cung cấp các sản phẩm chất
-																		lượng, chính hãng và giá tốt nhất đến tay người tiêu
-																		dùng.
-																</span></span></span></span></span></span></span>
-										</p>
-
-										<h3
-											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: Arial, Helvetica, sans-serif; background: rgb(255, 255, 255);">&nbsp;</h3>
-
-										<p
-											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: Arial, Helvetica, sans-serif; background: rgb(255, 255, 255);">
-											<span
-												style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family: &amp; amp;"><span
-												new=""
-												style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-												times=""><span
-													style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-size: 18px;"><span
-														new=""
-														style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-														times=""><span
-															style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">Hãy
-																		liên hệ qua&nbsp;<strong
-																		style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">hotline:&nbsp;<span
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(0, 0, 255);">0937.143.178</span></strong>&nbsp;hoặc
-																		trực tiếp đến địa chỉ:&nbsp;<span
-																		style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(0, 0, 255);"><strong
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">6/5
-																				Nguyễn Văn Lịch, KP3, P. Linh Tây, Q. Thủ Đức, TP.
-																				HCM</strong></span>&nbsp;để được tư vấn sản phẩm thích hợp và nhận
-																		được nhiều ưu đãi hấp dẫn!
-																</span></span></span></span></span></span></span>
-										</p>
-
-										<p
-											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">&nbsp;</p>
-
-										<p
-											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
-											<span style="font-family: times new roman, times, serif;"><span
-												style="font-size: 18px;"><span
-													style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-														style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-															style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																new=""
-																style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-																times=""><strong
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																		style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: rgb(34, 34, 34);">--------------------------------------------------------------------------------------------------</span></strong></span></span></span></span></span></span>
-										</p>
-										&nbsp;
-
-										<p>
-											<span style="font-family: times new roman, times, serif;"><strong><span
-													style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-size: 18px;"><span
-														new=""
-														style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; font-family:"
-														times=""><span
-															style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																	style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																		new=""
-																		style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-																		times=""><span
-																			style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																				new=""
-																				style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-																				times=""><span
-																					style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																						new=""
-																						style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"
-																						times=""><span
-																							style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																								style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><em
-																									style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;"><span
-																										style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: mediumblue;"><u
-																											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none;">Bán
-																												chạy nhất</u>:&nbsp;<a
-																											href="https://thietbikhangan.vn/san-pham/may-han-mig-khong-dung-khi-weldcom-multimag-v2000-day-han-loi-thuoc-5kg-1010.html"
-																											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: red; text-decoration-line: none;">máy
-																												hàn mig không dùng khí</a>&nbsp;|&nbsp;<a
-																											href="https://thietbikhangan.vn/san-pham/may-han-mig-khong-dung-khi-jasic-nb-200e-1040.html"
-																											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; color: red; text-decoration-line: none;">máy
-																												hàn mig mini không dùng khí</a></span></em></span></span></span></span></span></span></span></span></span></span></span></span></strong></span>
-										</p>
-
-										<p
-											style="margin: 0px; padding: 0px; box-sizing: border-box; outline: none; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">&nbsp;</p>
-									</div>
-								</div>
-
 							</div>
 						</div>
 						<div class="tab-pane fade" id="pro-review" role="tabpanel">
@@ -734,101 +353,45 @@
 			</div>
 		</div>
 		<!-- product area start -->
-		<div class="product-area pb-95">
-			<div class="container">
-				<div class="section-title-3 text-center mb-50">
-					<h2>Related products</h2>
-				</div>
-
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item One</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Two</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Three</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Four</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Five</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/700x400" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a href="#">Item Six</a>
-						</h4>
-						<h5>$24.99</h5>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-12 pagination-style mt-10 text-center">
-				<ul>
-					<li><a href="#"><i class="ti-angle-left"></i></a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">...</a></li>
-					<li><a href="#">19</a></li>
-					<li class="active"><a href="#"><i class="ti-angle-right"></i></a></li>
+		<div class="box-module-related-products">
+			<div
+				class="title-product-tabs group-title toolbar toolbar-related-products">
+				<ul class="tab">
+					<li class="active"><a th:href="${category.getPathUrl() + '?&category=' + category.getCategory2Id()}"><strong
+							style="font-size: initial;">Sản phẩm liên quan</strong></a></li>
 				</ul>
+				<ul class="pagination page-next-prev"
+					style="position: absolute; top: 8%; right: 1%;">
+					<li class="page-item"><a class="page-link btn-next-related"
+						href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							<span class="sr-only">Previous</span>
+					</a></li>
+
+					<li class="page-item"><a class="page-link btn-prev-related"
+						href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							<span class="sr-only">Next</span>
+					</a></li>
+				</ul>
+			</div>
+			<div class="owl-container">
+				<div id="owl-related" class="owl-carousel owl-theme">
+					<div class="item" th:each="prodRe : ${prodRelated}">
+						<div class="card h-100">
+							<div class="label-pro-sale">
+								<span th:text="${'giảm -'+prodRe.percentageDiscount} +'%'"></span>
+							</div>
+							<a th:href="@{/detail-page(id=${prodRe.productCode})}"><img
+								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
+							<div class="card-body">
+								<h2 class="product-name">
+									<a th:href="@{/detail-page(id=${prodRe.productCode})}" th:text="${prodRe.productName}"></a>
+								</h2>
+								<h6 th:text="${#numbers.formatInteger(prodRe.priceDiscount,3,'POINT')+ 'đ'}"></h6>
+								<a class="button-small" href="javascript:void(0);" th:attr="onclick='shoppingCart(\''+${prodRe.productCode}+'\')'"><span>Mua ngay</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

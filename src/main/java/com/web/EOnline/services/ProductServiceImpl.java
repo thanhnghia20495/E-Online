@@ -10,10 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.web.EOnline.entities.Category1;
+import com.web.EOnline.entities.Category2;
 import com.web.EOnline.entities.Heights;
 import com.web.EOnline.entities.Prices;
 import com.web.EOnline.entities.Products;
 import com.web.EOnline.entities.Weights;
+import com.web.EOnline.repositories.Category1Repository;
+import com.web.EOnline.repositories.Category2Repository;
 import com.web.EOnline.repositories.HeightProductRepository;
 import com.web.EOnline.repositories.PriceProductRepository;
 import com.web.EOnline.repositories.ProductRepository;
@@ -33,6 +37,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	WeightProductRepository weightProductRepository;
+
+	@Autowired
+	Category1Repository category1Repository;
+
+	@Autowired
+	Category2Repository category2Repository;
 
 	@Override
 	public Products createProduct(Products products) {
@@ -93,8 +103,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Products> findFilterProductPagination(Pageable pageable, int priceCode, int heightCode,
-			int weightCode) {
+	public Page<Products> findFilterProductPagination(Pageable pageable, String keyword,int priceCode, int heightCode, int weightCode,
+			int category1_id, int category2_id) {
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
 		int startItem = currentPage * pageSize;
@@ -104,9 +114,14 @@ public class ProductServiceImpl implements ProductService {
 		Long toPrice = null;
 		Integer heightProduct = null;
 		Integer weightProduct = null;
+		Integer category1Product = null;
+		Integer category2Product = null;
 		Prices price = priceProductRepository.findByPriceCode(priceCode);
 		Heights heights = heightProductRepository.findByHeightCode(heightCode);
 		Weights weights = weightProductRepository.findByWeightCode(weightCode);
+		Category2 category2 = category2Repository.findByCategory2Id(category2_id);
+		Category1 category1 = category1Repository.findByCategory1Id(category1_id);
+		
 		if (price != null) {
 			if (price.getToPrice() == 0) {
 				price.setToPrice(null);
@@ -120,7 +135,14 @@ public class ProductServiceImpl implements ProductService {
 		if (weights != null) {
 			weightProduct = weights.getWeightId();
 		}
-		listProduct = productRepository.findFilterProduct(fromPrice, toPrice, heightProduct, weightProduct);
+		if (category1 != null) {
+			category1Product = category1.getCategory1Id();
+		}
+		if (category2 != null) {
+			category2Product = category2.getCategory2Id();
+		}
+		listProduct = productRepository.findFilterProduct(keyword,fromPrice, toPrice, heightProduct, weightProduct,
+				category1Product, category2Product);
 
 		if (listProduct.size() < startItem) {
 			list = Collections.emptyList();
@@ -136,193 +158,23 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Products> findFilterPriceProductPagination(Pageable pageable, int priceCode) {
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> listProduct = null;
-		List<Products> list;
-		Long fromPrice = null;
-		Long toPrice = null;
-		Prices price = priceProductRepository.findByPriceCode(priceCode);
-		if (price != null) {
-			if (price.getToPrice() == 0) {
-				price.setToPrice(null);
-			}
-			fromPrice = price.getFromPrice();
-			toPrice = price.getToPrice();
+	public List<Products> findByCategory2(Category2 category2) {
+		try {
+			return productRepository.findByCategory2(category2);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		listProduct = productRepository.findFilterProduct(fromPrice, toPrice, null, null);
-
-		if (listProduct.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, listProduct.size());
-			list = listProduct.subList(startItem, toIndex);
-		}
-
-		Page<Products> productPage = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize),
-				listProduct.size());
-
-		return productPage;
+		return null;
 	}
 
 	@Override
-	public Page<Products> findFilterHeightProductPagination(Pageable pageable, int heightCode) {
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> listProduct = null;
-		List<Products> list;
-		Integer heightProduct = null;
-		Heights heights = heightProductRepository.findByHeightCode(heightCode);
-		if (heights != null) {
-			heightProduct = heights.getHeightId();
+	public List<Products> findByCategory2AndOptionBestSelling(String optionBestSelling, int category2Id) {
+		try {
+			return productRepository.findByCategory2AndOptionBestSelling(optionBestSelling, category2Id);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		listProduct = productRepository.findFilterProduct(null, null, heightProduct, null);
-
-		if (listProduct.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, listProduct.size());
-			list = listProduct.subList(startItem, toIndex);
-		}
-		Page<Products> productPage = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize),
-				listProduct.size());
-
-		return productPage;
+		return null;
 	}
 
-	@Override
-	public Page<Products> findFilterWeightProductPagination(Pageable pageable, int weightCode) {
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> listProduct = null;
-		List<Products> list;
-		Integer weightProduct = null;
-		Weights weights = weightProductRepository.findByWeightCode(weightCode);
-		if (weights != null) {
-			weightProduct = weights.getWeightId();
-		}
-		listProduct = productRepository.findFilterProduct(null, null, null, weightProduct);
-
-		if (listProduct.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, listProduct.size());
-			list = listProduct.subList(startItem, toIndex);
-		}
-
-		Page<Products> productPage = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize),
-				listProduct.size());
-
-		return productPage;
-	}
-
-	@Override
-	public Page<Products> findFilterPriceHeightProductPagination(Pageable pageable, int priceCode, int heightCode) {
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> listProduct = null;
-		List<Products> list;
-		Long fromPrice = null;
-		Long toPrice = null;
-		Integer heightProduct = null;
-		Prices price = priceProductRepository.findByPriceCode(priceCode);
-		Heights heights = heightProductRepository.findByHeightCode(heightCode);
-		if (price != null) {
-			if (price.getToPrice() == 0) {
-				price.setToPrice(null);
-			}
-			fromPrice = price.getFromPrice();
-			toPrice = price.getToPrice();
-		}
-		if (heights != null) {
-			heightProduct = heights.getHeightId();
-		}
-		listProduct = productRepository.findFilterProduct(fromPrice, toPrice, heightProduct, null);
-
-		if (listProduct.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, listProduct.size());
-			list = listProduct.subList(startItem, toIndex);
-		}
-
-		Page<Products> productPage = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize),
-				listProduct.size());
-
-		return productPage;
-	}
-
-	@Override
-	public Page<Products> findFilterPriceWeightProductPagination(Pageable pageable, int priceCode, int weightCode) {
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> listProduct = null;
-		List<Products> list;
-		Long fromPrice = null;
-		Long toPrice = null;
-		Integer weightProduct = null;
-		Prices price = priceProductRepository.findByPriceCode(priceCode);
-		Weights weights = weightProductRepository.findByWeightCode(weightCode);
-		if (price != null) {
-			if (price.getToPrice() == 0) {
-				price.setToPrice(null);
-			}
-			fromPrice = price.getFromPrice();
-			toPrice = price.getToPrice();
-		}
-		if (weights != null) {
-			weightProduct = weights.getWeightId();
-		}
-		listProduct = productRepository.findFilterProduct(fromPrice, toPrice, null, weightProduct);
-
-		if (listProduct.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, listProduct.size());
-			list = listProduct.subList(startItem, toIndex);
-		}
-
-		Page<Products> productPage = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize),
-				listProduct.size());
-
-		return productPage;
-	}
-
-	@Override
-	public Page<Products> findFilterHeightWeightProductPagination(Pageable pageable, int heightCode, int weightCode) {
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> listProduct = null;
-		List<Products> list;
-		Integer heightProduct = null;
-		Integer weightProduct = null;
-		Heights heights = heightProductRepository.findByHeightCode(heightCode);
-		Weights weights = weightProductRepository.findByWeightCode(weightCode);
-		if (heights != null) {
-			heightProduct = heights.getHeightId();
-		}
-		if (weights != null) {
-			weightProduct = weights.getWeightId();
-		}
-		listProduct = productRepository.findFilterProduct(null, null, heightProduct, weightProduct);
-
-		if (listProduct.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, listProduct.size());
-			list = listProduct.subList(startItem, toIndex);
-		}
-
-		Page<Products> productPage = new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize),
-				listProduct.size());
-
-		return productPage;
-	}
 }

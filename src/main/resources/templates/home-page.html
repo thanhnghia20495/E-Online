@@ -15,176 +15,42 @@
 			<div th:replace="fragments/slick-slider :: slick-slider"></div>
 		</div>
 		<div class="section-title-4 text-center mb-45">
-			<h2>Top Products</h2>
+			<h2>Top Sản Phẩm Bán Chạy</h2>
 		</div>
-		<div class="row">
-			<div th:each="product : ${productPage.content}"
-				class="col-lg-3 col-md-6 mb-4">
-				<div class="card h-100">
-					<a href="#"><img class="card-img-top"
-						src="http://placehold.it/820x820" alt=""></a>
-					<div class="card-body">
-						<h4 class="card-title">
-							<a th:text="${product.productName}"
-								th:href="@{/detail-page(id=${product.productCode})}"></a>
-						</h4>
-						<h5
-							th:text="${#numbers.formatInteger(product.price,3,'POINT')+ 'đ'}"></h5>
-					</div>
-				</div>
-			</div>
-			<div th:if="${productPage.totalPages > 0}"
-				class="col-lg-12 pagination-style mt-10 text-center">
-				<ul>
-					<li th:if="${#numbers.formatInteger(param.page,0)} &gt; 1"><a
-						th:href="@{/home-page(size=${productPage.size}, page=${#numbers.formatInteger(param.page,0)} -1)}"><i
-							class="ti-angle-left"></i></a></li>
-					<li th:each="pageNumber : ${pageNumbers}"
-						th:class="${pageNumber==productPage.number + 1} ? active"><a
-						th:href="@{/home-page(page=${pageNumber})}" th:text=${pageNumber}></a></li>
-					<li
-						th:if="${#numbers.formatInteger(param.page,0) < #numbers.formatInteger(productPage.totalPages,0)}"><a
-						th:href="@{/home-page(size=${productPage.size}, page=${#numbers.formatInteger(param.page,0)} +1)}"><i
-							class="ti-angle-right"></i></a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="section-title-4 text-center mb-45">
-			<h2>Best Selling</h2>
-		</div>
-		<div class="box-module">
+		<div class="box-module" th:each="key: ${prodHomePage}">
 			<div class="title-product-tabs group-title toolbar toolbar-products">
 				<ul class="tab">
-					<li class="active"><a href="#"><strong
-							style="font-size: initial;">Thang Nhôm Thẳng</strong></a></li>
+					<li class="active"><a th:href="${key['value'].category2.getPathUrl() + '?&category=' + key.key}"><strong
+							style="font-size: initial;" th:text="${key['value'].category2.getDescription()}">Thang Nhôm Bán Chạy</strong></a></li>
 				</ul>
 				<ul class="pagination page-next-prev"
 					style="position: absolute; top: 8%; right: 1%;">
-					<li class="page-item"><a class="page-link btn-next" href="#"
+					<li class="page-item"><a th:class="${'page-link btn-next-' + key.key}" href="#"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 							<span class="sr-only">Previous</span>
 					</a></li>
 
-					<li class="page-item"><a class="page-link btn-prev" href="#"
+					<li class="page-item"><a th:class="${'page-link btn-prev-' + key.key}" href="#"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span
 							class="sr-only">Next</span>
 					</a></li>
 				</ul>
 			</div>
 			<div class="owl-container">
-				<div class="owl-carousel owl-theme">
-					<div class="item">
+				<div th:id="${'owl-' + key.key}" class="owl-carousel owl-theme">
+					<div class="item" th:each="product : ${key['value'].products}">
 						<div class="card h-100">
 							<div class="label-pro-sale">
-								<span>giảm -12%</span>
+								<span th:text="${'giảm -'+product.percentageDiscount} +'%'"></span>
 							</div>
-							<a href="#"><img
+							<a th:href="@{/detail-page(id=${product.productCode})}"><img
 								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
 							<div class="card-body">
 								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
+									<a th:href="@{/detail-page(id=${product.productCode})}" th:text="${product.productName}"></a>
 								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="card h-100">
-							<a href="#"><img
-								src="https://www.thegioithangnhom.com/data/bt7/thang-nhom-chu-m-tw-dai-loan-pal-b6-165.jpg" /></a>
-							<div class="card-body">
-								<h2 class="product-name">
-									<a href="#">Thang Nhôm Rút Chữ A NIKAWA NK-38AI chữ A 1.9m,
-										I 3.8m</a>
-								</h2>
-								<h6>2.000.000đ</h6>
-								<a class="button-small"><span>Mua ngay</span></a>
+								<h6 th:text="${#numbers.formatInteger(product.priceDiscount,3,'POINT')+ 'đ'}"></h6>
+								<a class="button-small" href="javascript:void(0);" th:attr="onclick='shoppingCart(\''+${product.productCode}+'\')'"><span>Mua ngay</span></a>
 							</div>
 						</div>
 					</div>

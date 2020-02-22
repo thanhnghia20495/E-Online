@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+
+<head>
+<title>Shop Homepage - Start Bootstrap Template</title>
+</head>
+
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="cart-main-area ptb-20 pb-90">
+			<div class="container">
+				<div class="your-order">
+					<h3>Thông tin đơn hàng</h3>
+					<div class="your-order-table table-responsive">
+						<table>
+							<thead>
+								<tr class="cart_item">
+									<th class="product-name">Sản phẩm</th>
+									<th class="product-total">Số lượng</th>
+									<th class="product-total">Giá</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="cart_item" th:each="prod: ${bills.listBillDetails}">
+									<td class="product-name" th:text="${prod.getProductName()}"></td>
+									<td class="product-quantity"><span class="amount" th:text="${prod.getQty()}"></span>
+									</td>
+									<td class="product-total"><span class="amount" th:text="${#numbers.formatInteger(prod.getProductPrice(),1,'POINT')+ 'đ'}"></span>
+									</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr class="order-total">
+									<th>Tổng tiền</th>
+									<td><strong><span class="amount" th:text="${#numbers.formatInteger(bills.getTotal(),1,'POINT')+ 'đ'}"></span></strong></td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div class="payment-method">
+						<div class="payment-accordion">
+							<div class="panel-group" id="faq">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title">
+											<a data-toggle="collapse" aria-expanded="true"
+												data-parent="#faq" href="#payment-1">Hoàn Tất Đơn Hàng.</a>
+										</h5>
+									</div>
+									<div id="payment-1" class="panel-collapse collapse show">
+										<div class="panel-body">
+											<p>
+												Chân thành cám ơn bạn đã đặt mua hàng tại <a href="#">thietbikhangan.com</a><br />
+												Chúng tôi đã tiếp nhận đơn hàng của bạn và sẽ giao hàng cho
+												bạn trong thời gian sớm nhất!
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title">
+											<a class="collapsed">Mã đơn hàng: <strong th:text="${bills.getBillId()}"></strong></a>
+										</h5>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title">
+											<a class="collapsed">Địa chỉ giao hàng: <i th:text="${bills.getAddress()}"></i></a>
+										</h5>
+									</div>
+								</div>
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h5 class="panel-title">
+											<a class="collapsed">Số điện thoại: <i th:text="${bills.getTelephone()}"></i></a>
+										</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
